@@ -18,7 +18,8 @@ test_loader = torch.utils.data.DataLoader(test, batch_size=len(test), shuffle=Tr
 <a href="https://imgur.com/y6ct1fm"><img src="https://i.imgur.com/y6ct1fm.png" title="source: imgur.com" /></a>
 
 ### 2. Build Network
-```
+
+```python
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
@@ -86,7 +87,7 @@ class Model(nn.Module):
         x = F.log_softmax(x, dim=1)
         return x
         
-        ```
+ ```
 
 ### 3. Train Network
 
