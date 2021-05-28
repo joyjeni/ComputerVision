@@ -8,7 +8,7 @@
 
 #### 1. Load dataset
 
-'''python
+```python
 train = torchvision.datasets.MNIST('./var', train=True, transform=train_transform)
 train_loader = torch.utils.data.DataLoader(train, batch_size=batch_size, shuffle=True)
 test = torchvision.datasets.MNIST('./var', train=False, transform=test_transform)
@@ -90,7 +90,7 @@ class Model(nn.Module):
 
 ### 3. Train Network
 
-'''python
+```python
 for batch_idx, (images, labels) in enumerate(pbar):
         images, labels = images.to(device), labels.to(device)
         optimizer.zero_grad()
@@ -104,9 +104,7 @@ for batch_idx, (images, labels) in enumerate(pbar):
         loss = loss_function(log_ps, labels)
         loss.backward()
         optimizer.step()
-        
-     ```
-     
+ ```     
      
  ### 4. Validate Network
  
