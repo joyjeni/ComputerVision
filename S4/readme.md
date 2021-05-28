@@ -5,4 +5,4 @@
 3. Used Batch Normalization BN
 4. Dropout
 5. Fully connected layer 
-6. GAP (Global Average Pooling)
+
