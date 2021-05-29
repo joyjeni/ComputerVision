@@ -88,6 +88,8 @@ class Model(nn.Module):
         return x
         
  ```
+ The network build has 18K parameters
+ <a href="https://imgur.com/g0iO3IB"><img src="https://i.imgur.com/g0iO3IB.png" title="source: imgur.com" /></a>
 
 ### 3. Train Network
 
@@ -126,6 +128,10 @@ for batch_idx, (images, labels) in enumerate(pbar):
             
             
  ```
+ Training History
+ 
+ <a href="https://imgur.com/0UlBdCC"><img src="https://i.imgur.com/0UlBdCC.png" title="source: imgur.com" /></a>
+ 
      
 ### 5. Visualize 
 
