@@ -1,3 +1,12 @@
+### Backpropagation
+https://hideyukiinada.github.io/cnn_multi_channels.html
+
+
+
+
+
+
+
 ### Training MNIST data
 
 1. 99.6% validation accuracy
