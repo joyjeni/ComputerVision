@@ -10,7 +10,7 @@ https://hideyukiinada.github.io/cnn_multi_channels.html
 ### Training MNIST data
 
 1. 99.6% validation accuracy
-2. Less than 20k Parameters
+2. Less than 200k Parameters
 3. Used Batch Normalization BN
 4. Dropout
 5. Fully connected layer 
