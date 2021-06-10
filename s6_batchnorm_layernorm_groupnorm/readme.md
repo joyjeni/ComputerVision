@@ -1,7 +1,6 @@
 
 This repository is created to show  differnt types of normalization and its performance analysis.
-#### Dataset
-##### MNIST
+#### Dataset: MNIST
 
 
 ### Developers
