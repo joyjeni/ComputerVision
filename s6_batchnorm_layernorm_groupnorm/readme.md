@@ -1,5 +1,8 @@
 
-This repository tells you how to differnt types of normalization and analysis of each
+This repository is created to show  differnt types of normalization and its performance analysis.
+#### Dataset
+##### MNIST
+
 
 ### Developers
 
