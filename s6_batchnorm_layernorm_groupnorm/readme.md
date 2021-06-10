@@ -28,7 +28,7 @@ iii.  Network with L1 + BN
       
 ### 4. Find 10 misclassified images for each of the 3 models, and show them as a 5x2 image matrix in 3 separately annotated images. 
 ### 5. Analysis
-     i.  what is your code all about
+     i.  Code walkthrough
      
      ii.  how to perform the 3  normalization BN,LN,GN
      
