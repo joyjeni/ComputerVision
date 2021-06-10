@@ -1,6 +1,13 @@
 
 This repository tells you how to differnt types of normalization and analysis of each
 
+### Developers
+
+1. Chetan Kumar V
+2. Vivek K
+3. Jenisha Thankaraj 
+
+### Requirement
 
 ### 1. Add normalization
 
