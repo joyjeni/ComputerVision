@@ -2,7 +2,7 @@
 
 Achieve 85% accuracy. Total Params to be less than 200k
 
-#### Architecture
+#### 1. Architecture
 #### Model 1
 
 [1] Block1, Block2, Block3, Block4 \\ 
@@ -12,17 +12,17 @@ Achieve 85% accuracy. Total Params to be less than 200k
 [3] No maxpooling layer
 
 
-#### Receptive Field Calculation > 52
+#### 2. Receptive Field Calculation > 52
 
-#### Add two Depthwise Seperable Convolution
-
-
-#### Add Dilated Kernel
-
-#### Add Global Average Pooling
+#### 3. Add two Depthwise Seperable Convolution
 
 
-#### Add augumentation using Albumentation library and apply:
+#### 4. Add Dilated Kernel
+
+#### 5. Add Global Average Pooling
+
+
+#### 6. Add augumentation using Albumentation library and apply:
 [1] horizontal flip
 
 [2]  shiftScaleRotate
