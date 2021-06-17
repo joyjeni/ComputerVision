@@ -6,7 +6,9 @@ Achieve 85% accuracy. Total Params to be less than 200k
 #### Model 1
 
 [1] Block1, Block2, Block3, Block4 \\ 
+
 [2] Used dilated kernels instead of stride \\
+
 [3] No maxpooling layer
 
 
