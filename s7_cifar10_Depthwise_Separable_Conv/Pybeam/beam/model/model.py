@@ -194,13 +194,13 @@ class CIFAR10Model(BaseModel):
         x = self.convblock1(x)
         x = self.convblock2(x)
         x = self.convblock3(x)
-        x = self.pool1(x)
+
         x = self.depthwise1(x)
         x = self.convblock4(x)
-        x = self.pool2(x)
+
         x = self.convblock5(x)
         x = self.convblock6(x)
-        x = self.pool3(x)
+
         x = self.gap(x)
         x = self.convblock7(x)
         x = self.convblock8(x)
