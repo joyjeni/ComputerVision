@@ -3,7 +3,7 @@ from pathlib import Path
 import yaml
 import torch
 
-from sodium.utils import setup_logger
+from beam.utils import setup_logger
 
 logger = setup_logger(__name__)
 
