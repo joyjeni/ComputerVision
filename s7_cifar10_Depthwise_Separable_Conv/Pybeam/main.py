@@ -39,7 +39,7 @@ def train(cfg: Dict) -> None:
     train_loader = get_instance(module_data, 'data_loader', cfg, transforms)
     test_loader = train_loader.test_split()
 
-    lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(
+    lr_scheduler = torch.optim.lr_scheduler.StepLR(
         optimizer, max_lr=0.05, steps_per_epoch=len(train_loader), epochs=cfg['training']['epochs'])
 
     logger.info('Getting loss function handle')

@@ -128,8 +128,8 @@ class CIFAR10Model(BaseModel):
         self.convblock3 = nn.Sequential(
             nn.Conv2d(in_channels=64, out_channels=32,
                       kernel_size=(1, 1), padding=0, bias=False,stride=2),
-        )  # output_size = 32
-        #self.pool1 = nn.MaxPool2d(2, 2)  # output_size = 16
+        )  # output_size = 16
+
 
         # CONVOLUTION BLOCK 2
         # DEPTHWISE CONVOLUTION AND POINTWISE CONVOLUTION
@@ -146,10 +146,9 @@ class CIFAR10Model(BaseModel):
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.Dropout(self.dropout_value)
-        )  # output_size = 16
+        )  # output_size = 8
 
-        # TRANSITION BLOCK 2
-       # self.pool2 = nn.MaxPool2d(2, 2)  # output_size = 8
+
 
         # CONVOLUTION BLOCK 3
         self.convblock5 = nn.Sequential(
@@ -165,10 +164,8 @@ class CIFAR10Model(BaseModel):
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.Dropout(self.dropout_value)
-        )  # output_size = 11
+        )  # output_size = 5
 
-        # TRANSITION BLOCK 3
-        #self.pool3 = nn.MaxPool2d(2, 2)  # output_size = 5
 
         # OUTPUT BLOCK
         self.gap = nn.Sequential(
