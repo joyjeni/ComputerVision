@@ -11,13 +11,13 @@ import torch.optim as module_optimizer
 import torch.optim.lr_scheduler as module_scheduler
 from torchvision import datasets, transforms
 
-from sodium.utils import setup_logger, load_config, seed_everything
-from sodium.trainer import Trainer
+from beam.utils import setup_logger, load_config, seed_everything
+from beam.trainer import Trainer
 
-import sodium.model.model as module_arch
-import sodium.model.loss as module_loss
-import sodium.data_loader.augmentation as module_aug
-import sodium.data_loader.data_loaders as module_data
+import beam.model.model as module_arch
+import beam.model.loss as module_loss
+import beam.data_loader.augmentation as module_aug
+import beam.data_loader.data_loaders as module_data
 
 logger = setup_logger(__name__)
 
@@ -76,7 +76,7 @@ def get_instance(module: ModuleType, name: str, config: Dict, *args: Any) -> Any
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Train a Sodium Model')
+    parser = argparse.ArgumentParser(description='Train a beam Model')
 
     parser.add_argument('-c', '--config', default=None,
                         type=str, help='config file path (default: None)')
