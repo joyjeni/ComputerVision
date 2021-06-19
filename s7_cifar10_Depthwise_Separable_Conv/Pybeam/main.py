@@ -36,6 +36,7 @@ def train(cfg: Dict) -> None:
     #     module_scheduler, 'lr_scheduler', cfg, optimizer)
 
     transforms = get_instance(module_aug, 'augmentation', cfg)
+
     train_loader = get_instance(module_data, 'data_loader', cfg, transforms)
     test_loader = train_loader.test_split()
 
