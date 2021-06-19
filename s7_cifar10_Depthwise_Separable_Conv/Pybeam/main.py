@@ -36,12 +36,11 @@ def train(cfg: Dict) -> None:
     #     module_scheduler, 'lr_scheduler', cfg, optimizer)
 
     transforms = get_instance(module_aug, 'augmentation', cfg)
-
     train_loader = get_instance(module_data, 'data_loader', cfg, transforms)
     test_loader = train_loader.test_split()
 
-    lr_scheduler = torch.optim.lr_scheduler.StepLR(
-        optimizer, step_size=5,gamma=0.1)
+    lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(
+        optimizer, max_lr=0.05, steps_per_epoch=len(train_loader), epochs=cfg['training']['epochs'])
 
     logger.info('Getting loss function handle')
     loss = getattr(module_loss, cfg['loss'])
