@@ -12,6 +12,7 @@ Achieve 85% accuracy. Total Params to be less than 200k
 #### 1. Architecture
 #### Model 1
 
+
 [1]  Layer (type)               Output Shape         Param #
 ================================================================
             Conv2d-1           [-1, 32, 32, 32]             864
@@ -26,9 +27,9 @@ Achieve 85% accuracy. Total Params to be less than 200k
            Conv2d-10           [-1, 64, 14, 14]             576
       BatchNorm2d-11           [-1, 64, 14, 14]             128
              ReLU-12           [-1, 64, 14, 14]               0
-          Dropout-13           [-1, 64, 14, 14]               0
+          Dropout-13           [-1, 64, 14, 14]               
            Conv2d-14            [-1, 128, 7, 7]           8,192
-      BatchNorm2d-15            [-1, 128, 7, 7]             256
+      BatchNorm2d-15            [-1, 128, 7, 7]             
              ReLU-16            [-1, 128, 7, 7]               0
           Dropout-17            [-1, 128, 7, 7]               0
            Conv2d-18          [-1, 128, 11, 11]         147,456
