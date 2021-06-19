@@ -35,12 +35,10 @@ class CIFAR10Transforms(AugmentationFactoryBase):
             A.RandomCrop(80, 80),
             A.HorizontalFlip(p=0.5),
             A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.50, rotate_limit=45, p=.75),
-            A.CoarseDropout(max_holes=1, max_height=16px, max_width=1, min_holes = 1,
-        min_height = 16,
-        px, min_width = 16,
-        px, fill_value = (0.49159187 ,0.48234594, 0.44671956), mask_fill_value = None),
+            A.CoarseDropout(max_holes=1, max_height=16, max_width=1, min_holes = 1, min_height = 16, min_width = 16, fill_value = (0.49159187 ,0.48234594, 0.44671956), mask_fill_value = None)
 
-            A.VerticalFlip(p=0.5),A.Normalize((0.49159187 ,0.48234594, 0.44671956), (0.23834434, 0.23486559, 0.25264624))])
+            A.VerticalFlip(p=0.5),
+            A.Normalize((0.49159187 ,0.48234594, 0.44671956), (0.23834434, 0.23486559, 0.25264624))])
 
     def build_test(self):
         return T.Compose([T.ToTensor(), A.Normalize((0.49159187 ,0.48234594, 0.44671956), (0.23834434, 0.23486559, 0.25264624))])
