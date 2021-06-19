@@ -40,7 +40,7 @@ def train(cfg: Dict) -> None:
     test_loader = train_loader.test_split()
 
     lr_scheduler = torch.optim.lr_scheduler.StepLR(
-        optimizer, max_lr=0.05, steps_per_epoch=len(train_loader), epochs=cfg['training']['epochs'])
+        optimizer, step_size=5,gamma=0.1)
 
     logger.info('Getting loss function handle')
     loss = getattr(module_loss, cfg['loss'])
