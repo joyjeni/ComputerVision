@@ -7,7 +7,7 @@ Jenisha Thankaraj
 
 #### CIFAR10
 
-Achieve 85% accuracy. Total Params to be less than 200k
+Achieve 83.7% accuracy. Total Params to be less than 200k
 
 #### 1. Architecture
 #### Model 1
