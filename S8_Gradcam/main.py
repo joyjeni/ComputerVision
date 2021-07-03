@@ -47,7 +47,7 @@ train_transforms = A.Compose([A.PadIfNeeded(min_height=40, min_width=40, always_
                                               fill_value=tuple([x * 255.0 for x in [0.4914, 0.48216, 0.44653]]),
                                               min_height=16, min_width=16),
                               A.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159)),
-                              A.pytorch.ToTensorV2()
+                              A.pytorch.ToTensor()
                               ])
 # Test Phase transformations
 test_transforms = A.Compose([
