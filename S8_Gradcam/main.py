@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 from torchsummary import summary
 
 import matplotlib.pyplot as plt
-%matplotlib inline
+#%matplotlib inline
 
 import os
 import argparse
@@ -20,7 +20,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from models import resnet
 from utils import progress_bar, GradCam, preprocess_image, GuidedBackpropReLUModel, deprocess_image, show_cam_on_image, \
-    plot_accuracies, plot_losses, im_convert
+    im_convert
 import cv2
 
 import numpy as np
