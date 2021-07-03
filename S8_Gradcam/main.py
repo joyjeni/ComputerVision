@@ -51,12 +51,7 @@ train_transform = transforms.Compose([
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))])
-class Transforms:
-    def __init__(self, transforms):
-        self.transforms = transforms
 
-    def __call__(self, img, *args, **kwargs):
-        return self.transforms(image=np.array(img))
 
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
