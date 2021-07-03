@@ -58,7 +58,9 @@ test_transforms = A.Compose([
     A.pytorch.ToTensor()
 ])
 
-
+transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))])
 class Transforms:
     def __init__(self, transforms):
         self.transforms = transforms
@@ -68,12 +70,12 @@ class Transforms:
 
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=Transforms(train_transforms))
+                                        download=True, transform=Transforms(transform))
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                           shuffle=True, num_workers=2)
 
 testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       download=True, transform=test_transforms)
+                                       download=True, transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=4,
                                          shuffle=False, num_workers=2)
 
@@ -148,6 +150,8 @@ def test(model, device, test_loader, loss_function):
     model.eval()
     test_loss = 0
     correct = 0
+    confusion_matrix = np.zeros([10, 10], int)
+
     with torch.no_grad():
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
@@ -164,6 +168,11 @@ def test(model, device, test_loader, loss_function):
         100. * correct / len(test_loader.dataset)))
 
     test_acc.append(100. * correct / len(test_loader.dataset))
+
+    for i, l in enumerate(target):
+        confusion_matrix[l.item(), target[i].item()] += 1
+
+
 
 
 if device == 'cuda':
@@ -193,6 +202,7 @@ def train(epoch):
     correct = 0
     total = 0
     decay = 0
+    learning_rate=0.001
 
     accuracy = 0
 
@@ -271,6 +281,7 @@ for epoch in range(start_epoch, start_epoch + 20):
     train_accuracy = []
     test_accuracy = []
     test_losses = []
+    confusion_matrix = np.zeros([10, 10], int)
 
     train(epoch)
     test(epoch)
@@ -298,7 +309,33 @@ classes = ('airplane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 
+print('{0:10s} - {1}'.format('Category','Accuracy'))
+for i, r in enumerate(confusion_matrix):
+    print('{0:10s} - {1:.1f}'.format(classes[i], r[i]/np.sum(r)*100))
 
+fig, ax = plt.subplots(1,1,figsize=(8,6))
+ax.matshow(confusion_matrix, aspect='auto', vmin=0, vmax=1000, cmap=plt.get_cmap('Blues'))
+plt.ylabel('Actual Category')
+plt.yticks(range(10), classes)
+plt.xlabel('Predicted Category')
+plt.xticks(range(10), classes)
+plt.show()
+
+print('actual/pred'.ljust(16), end='')
+for i, c in enumerate(classes):
+    print(c.ljust(10), end='')
+print()
+for i, r in enumerate(confusion_matrix):
+    print(classes[i].ljust(16), end='')
+    for idx, p in enumerate(r):
+        print(str(p).ljust(10), end='')
+    print()
+
+    r = r / np.sum(r)
+    print(''.ljust(16), end='')
+    for idx, p in enumerate(r):
+        print(str(p).ljust(10), end='')
+    print()
 
 
 
