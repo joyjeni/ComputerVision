@@ -58,6 +58,13 @@ test_transforms = A.Compose([
     A.pytorch.ToTensor()
 ])
 
+train_transform = transforms.Compose([
+    transforms.Pad(4),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomCrop(32),
+    transforms.ToTensor(),
+    transforms.Normalize((0.4914, 0.48216, 0.44653),(0.24703, 0.24349, 0.26159))])
+
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))])
@@ -70,7 +77,7 @@ class Transforms:
 
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=Transforms(transform))
+                                        download=True, transform=Transforms(train_transform))
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                           shuffle=True, num_workers=2)
 
