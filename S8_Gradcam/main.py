@@ -214,7 +214,7 @@ def train(epoch):
         accuracy = 100 * correct / total
 
         progress_bar(batch_idx, len(trainloader), 'batch_loss: %.3f | Acc: %.3f%% (%d/%d)'
-                     % (train_loss / (batch_idx + 1), accuracy))
+                     % (train_loss / (batch_idx + 1), accuracy,correct,total))
 
 
 
@@ -244,7 +244,7 @@ def test(epoch):
             test_accuracy.append(accuracy)
 
             progress_bar(batch_idx, len(testloader), 'batch_loss: %.3f | Acc: %.3f%% (%d/%d)'
-                         % (test_batch_loss / (batch_idx + 1), accuracy))
+                         % (test_batch_loss / (batch_idx + 1), accuracy,correct,total))
 
     # Save checkpoint.
     acc = 100. * correct / total
