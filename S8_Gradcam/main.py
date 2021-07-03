@@ -47,14 +47,14 @@ train_transforms = A.Compose([A.PadIfNeeded(min_height=40, min_width=40, always_
                                               fill_value=tuple([x * 255.0 for x in [0.4914, 0.48216, 0.44653]]),
                                               min_height=16, min_width=16),
                               A.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159)),
-                              ToTensorV2()
+                              A.pytorch.ToTensorV2()
                               ])
 # Test Phase transformations
-test_transforms = transforms.Compose([
+test_transforms = A.Compose([
     #  transforms.Resize((28, 28)),
     #  transforms.ColorJitter(brightness=0.10, contrast=0.1, saturation=0.10, hue=0.1),
-    transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))
+    A.pytorch.ToTensor(),
+    A.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))
 ])
 
 
@@ -203,7 +203,7 @@ def train(epoch):
 
     model.train()
     for batch_idx, (inputs, labels) in enumerate(trainloader):
-        inputs, labels = inputs.to_device(device), labels.to_device(device)
+        inputs, labels = inputs.to(device), labels.to(device)
         optimizer.zero_grad()
         logps = model(inputs)
         batch_loss = criterion(logps, labels)
