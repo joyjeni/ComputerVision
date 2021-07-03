@@ -11,7 +11,7 @@ import torchvision.transforms as transforms
 import os
 import argparse
 
-from S8_Gradcam.models.resnet import ResNet18
+from models.resnet import ResNet18
 from models import *
 from utils import progress_bar
 
