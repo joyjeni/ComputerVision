@@ -53,8 +53,9 @@ train_transforms = A.Compose([A.PadIfNeeded(min_height=40, min_width=40, always_
 test_transforms = A.Compose([
     #  transforms.Resize((28, 28)),
     #  transforms.ColorJitter(brightness=0.10, contrast=0.1, saturation=0.10, hue=0.1),
-    A.pytorch.ToTensor(),
-    A.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159))
+
+    A.Normalize((0.4914, 0.48216, 0.44653), (0.24703, 0.24349, 0.26159)),
+    A.pytorch.ToTensor()
 ])
 
 
