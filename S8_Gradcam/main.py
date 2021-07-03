@@ -14,6 +14,9 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from models import resnet
 from utils import progress_bar
+import cv2
+
+import numpy as np
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
@@ -234,3 +237,62 @@ for epoch in range(start_epoch, start_epoch + 200):
     train(epoch)
     test(epoch)
     scheduler.step()
+
+img = cv2.imread(IMAGE_PATH, 1)
+img = np.float32(img) / 255
+# Opencv loads as BGR:
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+input_img = preprocess_image(img)
+
+grad_cam = GradCam(model=model, feature_module=model.blocks,
+                   target_layer_names=["6"], use_cuda=use_cuda)
+
+# If None, returns the map for the highest scoring category.
+# Otherwise, targets the requested category.
+target_category = None
+grayscale_cam = grad_cam(input_img, target_category)
+
+grayscale_cam = cv2.resize(grayscale_cam, (img.shape[1], img.shape[0]))
+cam = show_cam_on_image(img, grayscale_cam)
+
+gb_model = GuidedBackpropReLUModel(model=model, use_cuda=use_cuda)
+gb = gb_model(input_img, target_category=target_category)
+gb = gb.transpose((1, 2, 0))
+
+cam_mask = cv2.merge([grayscale_cam, grayscale_cam, grayscale_cam])
+cam_gb = deprocess_image(cam_mask*gb)
+gb = deprocess_image(gb)
+
+cv2.imwrite("cam.jpg", cam)
+cv2.imwrite('gb.jpg', gb)
+cv2.imwrite('cam_gb.jpg', cam_gb);
+img = cv2.imread(IMAGE_PATH, 1)
+img = np.float32(img) / 255
+# Opencv loads as BGR:
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+input_img = preprocess_image(img)
+
+grad_cam = GradCam(model=model, feature_module=model.blocks,
+                   target_layer_names=["6"], use_cuda=use_cuda)
+
+# If None, returns the map for the highest scoring category.
+# Otherwise, targets the requested category.
+target_category = None
+grayscale_cam = grad_cam(input_img, target_category)
+
+grayscale_cam = cv2.resize(grayscale_cam, (img.shape[1], img.shape[0]))
+cam = show_cam_on_image(img, grayscale_cam)
+
+gb_model = GuidedBackpropReLUModel(model=model, use_cuda=use_cuda)
+gb = gb_model(input_img, target_category=target_category)
+gb = gb.transpose((1, 2, 0))
+
+cam_mask = cv2.merge([grayscale_cam, grayscale_cam, grayscale_cam])
+cam_gb = deprocess_image(cam_mask*gb)
+gb = deprocess_image(gb)
+
+cv2.imwrite("cam.jpg", cam)
+cv2.imwrite('gb.jpg', gb)
+cv2.imwrite('cam_gb.jpg', cam_gb);
+
+
