@@ -55,7 +55,7 @@ transform = transforms.Compose(
 
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=Transforms(train_transform))
+                                        download=True, transform=train_transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=64,
                                           shuffle=True, num_workers=2)
 
