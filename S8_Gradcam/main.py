@@ -1,4 +1,5 @@
 '''Train CIFAR10 with PyTorch.'''
+import matplotlib
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -8,15 +9,23 @@ import torch.backends.cudnn as cudnn
 import torchvision
 import torchvision.transforms as transforms
 
+from torchsummary import summary
+
+import matplotlib.pyplot as plt
+%matplotlib inline
+
 import os
 import argparse
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from models import resnet
-from utils import progress_bar
+from utils import progress_bar, GradCam, preprocess_image, GuidedBackpropReLUModel, deprocess_image, show_cam_on_image, \
+    plot_accuracies, plot_losses, im_convert
 import cv2
 
 import numpy as np
+
+IMAGE_PATH = "./img/misclassified/1.jpg"
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
@@ -85,8 +94,8 @@ if cuda:
     torch.cuda.manual_seed(SEED)
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
-net = resnet.ResNet18()
-net = net.to(device)
+model = resnet.ResNet18()
+model = model.to(device)
 
 from tqdm import tqdm
 
@@ -133,6 +142,7 @@ def train(model, device, train_loader, optimizer, epoch, loss_function):
     train_losses.append(train_loss / len(train_loader))
 
 
+
 def test(model, device, test_loader, loss_function):
     model.eval()
     test_loss = 0
@@ -156,7 +166,7 @@ def test(model, device, test_loader, loss_function):
 
 
 if device == 'cuda':
-    net = torch.nn.DataParallel(net)
+    model = torch.nn.DataParallel(model)
     cudnn.benchmark = True
 
 if args.resume:
@@ -164,66 +174,88 @@ if args.resume:
     print('==> Resuming from checkpoint..')
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
     checkpoint = torch.load('./checkpoint/ckpt.pth')
-    net.load_state_dict(checkpoint['net'])
+    model.load_state_dict(checkpoint['model'])
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr,
+optimizer = optim.SGD(model.parameters(), lr=args.lr,
                       momentum=0.9, weight_decay=5e-4)
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 
 
 # Training
 def train(epoch):
-    print('\nEpoch: %d' % epoch)
-    net.train()
+
+
     train_loss = 0
     correct = 0
     total = 0
-    for batch_idx, (inputs, targets) in enumerate(trainloader):
-        inputs, targets = inputs.to(device), targets.to(device)
+    decay = 0
+
+    accuracy = 0
+
+    print('\nEpoch: %d' % epoch)
+    if (epoch + 1) % 3 == 0:
+        decay += 1
+        optimizer.param_groups[0]['lr'] = learning_rate * (0.5 ** decay)
+        print("The new learning rate is {}".format(optimizer.param_groups[0]['lr']))
+
+    model.train()
+    for batch_idx, (inputs, labels) in enumerate(trainloader):
+        inputs, labels = inputs.to_device(device), labels.to_device(device)
         optimizer.zero_grad()
-        outputs = net(inputs)
-        loss = criterion(outputs, targets)
-        loss.backward()
+        logps = model(inputs)
+        batch_loss = criterion(logps, labels)
+        batch_loss.backward()
         optimizer.step()
 
-        train_loss += loss.item()
-        _, predicted = outputs.max(1)
-        total += targets.size(0)
-        correct += predicted.eq(targets).sum().item()
+        train_loss += batch_loss.item()
+        train_losses.append(train_loss)
+        _, predicted = logps.max(1)
+        total += labels.size(0)
+        correct += predicted.eq(labels).sum().item()
+        accuracy = 100 * correct / total
 
-        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                     % (train_loss / (batch_idx + 1), 100. * correct / total, correct, total))
+        progress_bar(batch_idx, len(trainloader), 'batch_loss: %.3f | Acc: %.3f%% (%d/%d)'
+                     % (train_loss / (batch_idx + 1), accuracy))
+
+
+
+
 
 
 def test(epoch):
     global best_acc
-    net.eval()
-    test_loss = 0
-    correct = 0
-    total = 0
+    model.eval()
+    test_batch_loss = 0.0
+    correct = 0.0
+    total = 0.0
+    accuracy=0.0
+
     with torch.no_grad():
-        for batch_idx, (inputs, targets) in enumerate(testloader):
-            inputs, targets = inputs.to(device), targets.to(device)
-            outputs = net(inputs)
-            loss = criterion(outputs, targets)
+        for batch_idx, (inputs, labels) in enumerate(testloader):
+            inputs, labels = inputs.to(device), labels.to(device)
+            logps = model(inputs)
+            batch_loss = criterion(logps, labels)
 
-            test_loss += loss.item()
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+            test_batch_loss += batch_loss.item()
+            _, predicted = logps.max(1)
+            total += labels.size(0)
+            correct += predicted.eq(labels).sum().item()
+            accuracy = 100 * correct / total
+            test_losses.append(test_batch_loss)
+            test_accuracy.append(accuracy)
 
-            progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                         % (test_loss / (batch_idx + 1), 100. * correct / total, correct, total))
+            progress_bar(batch_idx, len(testloader), 'batch_loss: %.3f | Acc: %.3f%% (%d/%d)'
+                         % (test_batch_loss / (batch_idx + 1), accuracy))
 
     # Save checkpoint.
     acc = 100. * correct / total
     if acc > best_acc:
         print('Saving..')
         state = {
-            'net': net.state_dict(),
+            'model': model.state_dict(),
             'acc': acc,
             'epoch': epoch,
         }
@@ -233,66 +265,42 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch + 200):
+for epoch in range(start_epoch, start_epoch + 20):
+    train_losses = []
+    train_accuracy = []
+    test_accuracy = []
+    test_losses = []
+
     train(epoch)
     test(epoch)
     scheduler.step()
+plt.style.use('ggplot')
+plt.plot(train_losses, label='training batch_loss')
+plt.plot(test_losses, label='validation batch_loss')
+plt.legend()
 
-img = cv2.imread(IMAGE_PATH, 1)
-img = np.float32(img) / 255
-# Opencv loads as BGR:
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-input_img = preprocess_image(img)
+plt.style.use('ggplot')
+plt.plot(train_accuracy, label='training accuracy')
+plt.plot(test_accuracy, label='validation accuracy')
+plt.legend()
 
-grad_cam = GradCam(model=model, feature_module=model.blocks,
-                   target_layer_names=["6"], use_cuda=use_cuda)
 
-# If None, returns the map for the highest scoring category.
-# Otherwise, targets the requested category.
-target_category = None
-grayscale_cam = grad_cam(input_img, target_category)
 
-grayscale_cam = cv2.resize(grayscale_cam, (img.shape[1], img.shape[0]))
-cam = show_cam_on_image(img, grayscale_cam)
+summary(model, input_size=(3, 32, 32))
 
-gb_model = GuidedBackpropReLUModel(model=model, use_cuda=use_cuda)
-gb = gb_model(input_img, target_category=target_category)
-gb = gb.transpose((1, 2, 0))
 
-cam_mask = cv2.merge([grayscale_cam, grayscale_cam, grayscale_cam])
-cam_gb = deprocess_image(cam_mask*gb)
-gb = deprocess_image(gb)
 
-cv2.imwrite("cam.jpg", cam)
-cv2.imwrite('gb.jpg', gb)
-cv2.imwrite('cam_gb.jpg', cam_gb);
-img = cv2.imread(IMAGE_PATH, 1)
-img = np.float32(img) / 255
-# Opencv loads as BGR:
-img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-input_img = preprocess_image(img)
 
-grad_cam = GradCam(model=model, feature_module=model.blocks,
-                   target_layer_names=["6"], use_cuda=use_cuda)
+### Visualize
 
-# If None, returns the map for the highest scoring category.
-# Otherwise, targets the requested category.
-target_category = None
-grayscale_cam = grad_cam(input_img, target_category)
+classes = ('airplane', 'car', 'bird', 'cat',
+           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
-grayscale_cam = cv2.resize(grayscale_cam, (img.shape[1], img.shape[0]))
-cam = show_cam_on_image(img, grayscale_cam)
 
-gb_model = GuidedBackpropReLUModel(model=model, use_cuda=use_cuda)
-gb = gb_model(input_img, target_category=target_category)
-gb = gb.transpose((1, 2, 0))
 
-cam_mask = cv2.merge([grayscale_cam, grayscale_cam, grayscale_cam])
-cam_gb = deprocess_image(cam_mask*gb)
-gb = deprocess_image(gb)
 
-cv2.imwrite("cam.jpg", cam)
-cv2.imwrite('gb.jpg', gb)
-cv2.imwrite('cam_gb.jpg', cam_gb);
 
+
+images_batch, labels_batch = iter(trainloader).next()
+img = torchvision.utils.make_grid(images_batch)
 

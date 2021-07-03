@@ -331,3 +331,11 @@ def deprocess_image(img):
     img = img + 0.5
     img = np.clip(img, 0, 1)
     return np.uint8(img * 255)
+
+# We need to convert the images to numpy arrays as tensors are not compatible with matplotlib.
+def im_convert(tensor):
+  image = tensor.cpu().clone().detach().numpy() # This process will happen in normal cpu.
+  image = image.transpose(1, 2, 0)
+  image = image * np.array((0.5, 0.5, 0.5)) + np.array((0.5, 0.5, 0.5))
+  image = image.clip(0, 1)
+  return image
