@@ -19,10 +19,12 @@
 
 #### Misclassified images
 
-
+<img src="https://github.com/joyjeni/ComputerVision/blob/main/S8_Gradcam/img/misclassified/10misclassified_images.png" alt="Misclassified Images">
 
 ### Gradcam
 
+
+<img src="https://github.com/joyjeni/ComputerVision/blob/main/S8_Gradcam/img/gradcam/10_missed_gradcam.png" alt="Misclassified Images">
 
 
 
