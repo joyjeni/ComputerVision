@@ -459,8 +459,8 @@ img = np.float32(images_batch) / 255
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 input_img = preprocess_image(img)
 
-grad_cam = GradCam(model=model, feature_module=model.blocks,
-                   target_layer_names=["6"], use_cuda=use_cuda)
+grad_cam = GradCam(model=model, feature_module=model.layer4,
+                   target_layer_names=["4"], use_cuda=use_cuda)
 
 # If None, returns the map for the highest scoring category.
 # Otherwise, targets the requested category.
