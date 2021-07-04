@@ -453,8 +453,8 @@ class GradCam:
 images_batch, labels_batch = iter(trainloader).next()
 img = torchvision.utils.make_grid(images_batch)
 
-img = cv2.imread(images_batch, 1)
-img = np.float32(img) / 255
+#img = cv2.imread(images_batch, 1)
+img = np.float32(images_batch) / 255
 # Opencv loads as BGR:
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 input_img = preprocess_image(img)
