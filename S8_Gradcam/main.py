@@ -13,10 +13,6 @@ from torchsummary import summary
 
 import matplotlib.pyplot as plt
 
-from pytorch_grad_cam import GradCAM, ScoreCAM, GradCAMPlusPlus, AblationCAM, XGradCAM, EigenCAM
-from pytorch_grad_cam.utils.image import show_cam_on_image
-#%matplotlib inline
-
 import os
 import argparse
 import albumentations as A
