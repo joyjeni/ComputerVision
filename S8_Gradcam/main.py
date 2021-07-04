@@ -12,6 +12,9 @@ import torchvision.transforms as transforms
 from torchsummary import summary
 
 import matplotlib.pyplot as plt
+
+from pytorch_grad_cam import GradCAM, ScoreCAM, GradCAMPlusPlus, AblationCAM, XGradCAM, EigenCAM
+from pytorch_grad_cam.utils.image import show_cam_on_image
 #%matplotlib inline
 
 import os
@@ -187,7 +190,7 @@ def train(epoch):
     correct = 0
     total = 0
     decay = 0
-    learning_rate=0.001
+    learning_rate=0.01
 
     accuracy = 0
 
@@ -326,4 +329,14 @@ for i, r in enumerate(confusion_matrix):
 
 images_batch, labels_batch = iter(trainloader).next()
 img = torchvision.utils.make_grid(images_batch)
+target_layer = model.layer4[-1]
+cam = GradCAM(model=model, target_layer=target_layer, use_cuda=args.use_cuda)
 
+target_category = 1
+
+# You can also pass aug_smooth=True and eigen_smooth=True, to apply smoothing.
+grayscale_cam = cam(input_tensor=images_batch, target_category=target_category)
+
+# In this example grayscale_cam has only one image in the batch:
+grayscale_cam = grayscale_cam[0, :]
+visualization = show_cam_on_image(img, grayscale_cam)
