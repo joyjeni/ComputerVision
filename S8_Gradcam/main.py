@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 from torchsummary import summary
 
 import matplotlib.pyplot as plt
-%matplotlib inline
+
 import os
 import argparse
 import albumentations as A
