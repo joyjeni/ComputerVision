@@ -155,7 +155,7 @@ def test(model, device, test_loader, loss_function):
 
     for i, l in enumerate(target):
         confusion_matrix[l.item(), target[i].item()] += 1
-    print(confusion_matrix)
+        print(confusion_matrix)
 
 
 
@@ -187,7 +187,7 @@ def train(epoch):
     correct = 0
     total = 0
     decay = 0
-    learning_rate=0.01
+    learning_rate=0.001
 
     accuracy = 0
 
@@ -261,7 +261,7 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch + 21):
+for epoch in range(start_epoch, start_epoch + 2):
     train_losses = []
     train_accuracy = []
     test_accuracy = []
