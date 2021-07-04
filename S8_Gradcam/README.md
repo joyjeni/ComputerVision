@@ -15,7 +15,7 @@
 7. compute np.dot(output,weight)
 8. Normalize 
 9. Create heatmap
-10. Overlay healhap on the image
+10. Overlay heatmap on the image
 
 #### Misclassified images
 
