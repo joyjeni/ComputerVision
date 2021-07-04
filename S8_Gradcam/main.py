@@ -12,7 +12,7 @@ import torchvision.transforms as transforms
 from torchsummary import summary
 
 import matplotlib.pyplot as plt
-
+%matplotlib inline
 import os
 import argparse
 import albumentations as A
@@ -34,7 +34,7 @@ args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 best_acc = 0  # best test accuracy
-start_epoch = 0  # start from epoch 0 or last checkpoint epoch
+start_epoch = 1  # start from epoch 0 or last checkpoint epoch
 
 # Data
 print('==> Preparing data..')
@@ -155,6 +155,7 @@ def test(model, device, test_loader, loss_function):
 
     for i, l in enumerate(target):
         confusion_matrix[l.item(), target[i].item()] += 1
+    print(confusion_matrix)
 
 
 
@@ -260,12 +261,12 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch + 20):
+for epoch in range(start_epoch, start_epoch + 21):
     train_losses = []
     train_accuracy = []
     test_accuracy = []
     test_losses = []
-    confusion_matrix = np.zeros([10, 10], int)
+    confusion_matrix = np.zeros([10, 10])
 
     train(epoch)
     test(epoch)
@@ -274,11 +275,13 @@ plt.style.use('ggplot')
 plt.plot(train_losses, label='training batch_loss')
 plt.plot(test_losses, label='validation batch_loss')
 plt.legend()
+plt.show()
 
 plt.style.use('ggplot')
 plt.plot(train_accuracy, label='training accuracy')
 plt.plot(test_accuracy, label='validation accuracy')
 plt.legend()
+plt.show()
 
 
 
