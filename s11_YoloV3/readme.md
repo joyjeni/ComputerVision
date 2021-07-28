@@ -11,3 +11,12 @@
 
 ### Output
 New video file with detected objects, bounding boxes and labels
+
+### To convert video into images
+
+```python
+$ffmpeg -i <video file.mp4> -vf fps=4 image-%d.jpeg
+
+```
+
+
