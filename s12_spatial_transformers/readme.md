@@ -16,3 +16,6 @@ Train Epoch: 50 [32000/50000 (64%)]	Loss: 0.837496
 
 Test set: Average loss: 1.0165, Accuracy: 6638/10000 (66%)
 
+#### Visualization
+![spatial_transformer](https://github.com/joyjeni/ComputerVision/blob/main/s12_spatial_transformers/images/spatial_result1.png)
+
