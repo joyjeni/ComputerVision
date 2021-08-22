@@ -5,6 +5,8 @@
 ***(FROM WHERE DO WE TAKE THIS ENCODED IMAGE?)***
 The encoded image is taken from the DETR Encoder Output, by default d=256.CNN backbone outputs low resolution feature map of H/32, W/32. This output is matched with the hidden dimensions of DETR (256 default) and then sent to encoder. The output of the encoder has image features of the same dimension. This output is fed as input to the Multi head attention for panoptic segmentation.
 
+![Imgur](https://i.imgur.com/RYjwZgz.png)
+
 
 2. We also send dxN Box embeddings to the Multi-Head Attention
 We do something here to generate NxMxH/32xW/32 maps.
