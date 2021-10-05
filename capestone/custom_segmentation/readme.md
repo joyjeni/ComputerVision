@@ -1,3 +1,7 @@
+#### Refer friends work
+https://github.com/adilsammar/detr-fine
+
+
 ### Train Custom Data 
 
 
