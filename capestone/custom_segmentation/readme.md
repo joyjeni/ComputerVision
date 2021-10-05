@@ -1,4 +1,5 @@
-#### Refer friends work
+#### Refer solution developed by Amar Adil
+
 https://github.com/adilsammar/detr-fine
 
 
