@@ -1,6 +1,9 @@
 
 https://colab.research.google.com/drive/1s-onS_pfYYdtcRPWzMUetSij7sUf3aKp?usp=sharing
 
+### Training
+![98epoch](https://i.imgur.com/5aA9GyF.png)
+
 
 ### Reference
 
