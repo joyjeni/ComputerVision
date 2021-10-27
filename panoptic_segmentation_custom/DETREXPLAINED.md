@@ -40,7 +40,7 @@ DETR formulates the object detection task as an image-to-set problem. Given an i
 
 The paper ‘Attention Is All You Need’ introduces a novel architecture called Transformer. As the title indicates, it uses the attention-mechanism. Like LSTM, Transformer is an architecture for transforming one sequence into another one with the help of two parts (Encoder and Decoder), but it differs from the previously described/existing sequence-to-sequence models because it does not imply any Recurrent Networks (GRU, LSTM, etc.)
 
-![Transformer Architecture](./assets/attention_arch.png)
+![Transformer Architecture](assets/attention_arch.png)
 
 In the above architecture lest part is Encoder and right part us Decoder. Both Encoder and Decoder are composed of modules that can be stacked on top of each other multiple times, which is shown as `Nx` above. These modules consist mainly of Multi-Head Attention and Feed Forward layers. 
 
@@ -56,7 +56,7 @@ Transformers have been widely applied on problems with sequential data, in parti
 
 ## DETR Pipeline
 
-![detr_pipeline](./assets/detr_pipeline.png)
+![detr_pipeline](assets/detr_pipeline.png)
 
 
 At a high level these are the tasks detr perform 
@@ -74,7 +74,7 @@ DETR is very simple model it basically contains three different parts.
 2. An encoder-decoder transformer
 3. A simple feed forward network (FFN) that makes the final detection prediction
 
-![detr_architecture](./assets/detr_arch.png)
+![detr_architecture](assets/detr_arch.png)
 
 ### Backbone
 
@@ -86,7 +86,7 @@ Before we move to details of transformer encoder and decoder, I recommend you to
 
 ### Transformer
 
-![transformer](./assets/transformer.png)
+![transformer](assets/transformer.png)
 
 As you can see, it is very similar to the original transformer block with minute differences adjusted to this task.
 
@@ -136,7 +136,7 @@ The following explanation may seem a lot to grasp but trust me when you read it 
 
 A Bipartite Graph is a graph whose vertices can be divided into two independent sets, U and V such that every edge (u, v) either connects a vertex from U to V or a vertex from V to U. In other words, for every edge (u, v), either u belongs to U and v to V, or u belongs to V and v to U. We can also say that there is no edge that connects vertices of same set.
 
-![bipartitegraph](./assets/bipartitegraph.jpg)
+![bipartitegraph](assets/bipartitegraph.jpg)
 
 In object detection context, we have to find best predicted box for a given ground truth. This part eliminates the need of Non Maximum Suppression(NMS) and the anchors used in the object detectors of today.
 
@@ -149,7 +149,7 @@ The loss function is an optimal bipartite matching function. Which Does the foll
 
 Next, they find a bipartite matching between these two sets using a matching function across a permutation of N elements with the lowest cost as follows:
 
-![bpt_matching](./assets/bpt_matching.png)
+![bpt_matching](assets/bpt_matching.png)
 
 where __L match(yi,ˆyσ(i))__ is a pair-wise matching cost between ground truth yi and a prediction with index __σ(i)__. It is formulated as an assignment problem with m ground truth and n predictions and is computed efficiently with the Hungarian algorithm over `m x n` matrix.
 

@@ -1,4 +1,4 @@
-![rmc_batching_plant](./assets/panoptic/rmc_batching_plant_5155.jpg)
+![rmc_batching_plant](assets/panoptic/rmc_batching_plant_5155.jpg)
 
 <!-- vscode-markdown-toc -->
 1. [What is Segmentation](#WhatisSegmentation)
@@ -29,9 +29,9 @@ Panoptic segmentation combines instance segmentation and semantic segmentation t
 
 Semantic segmentation refers to the task of classifying pixels in an image. It is done by predefining some target classes, e.g., “car”, “vegetation”, “road”, “sky”, “sidewalk”, or “background”, where “background” is in most cases a default class. Then, each pixel in the image is assigned to one of those classes. Here’s an example:
 
-![Input](./assets/input.png)
+![Input](assets/input.png)
 
-![Output](./assets/output.png)
+![Output](assets/output.png)
 
 As you can see in the previous example, every pixel in the image was colored depending on its class; hence, every pixel belonging to a car is masked in blue and the same goes for the sidewalk, the vegetation, road, and the sky.
 
@@ -43,13 +43,13 @@ When we do object detection, we aim to identify bounded regions of interest with
 
 It is very common to use bounding boxes to indicate the region within which we will find a given object. Here’s an example:
 
-![Boxes](./assets/boxes.png)
+![Boxes](assets/boxes.png)
 
 In the previous image, there are three bounding boxes, one for each car on the image. In other words, we are detecting cars, and we can now say how many of them are in the image.
 
 Now, not all the pixels inside those bounding boxes correspond to a car. Some of those pixels are part of the road; others of the sidewalk or the vegetation. If we want to obtain richer information from object detection, we can identify what pixels specifically belong to the same class assigned to the bounding box. That is what is called instance segmentation. Strictly speaking, we perform pixel-wise segmentation for every instance (bounding box in our case) we detected. This is what it looks like:
 
-![Instance](./assets/instance.png)
+![Instance](assets/instance.png)
 
 So we went from a rough detection with a bounding box to a more accurate detection in which we can also identify instances and therefore count the number of objects of a given class. In addition to that, we know exactly what pixels belong to an object.
 
@@ -61,7 +61,7 @@ As mentioned in the introduction of this post, panoptic segmentation is a combin
 
 Following our example, panoptic segmentation would look like this:
 
-![Panoptic](./assets/panoptic.png)
+![Panoptic](assets/panoptic.png)
 
 We have now managed to get a representation of the original image in such a way that it provides rich information about both semantic and instance classes altogether.
 
@@ -71,11 +71,11 @@ We have now managed to get a representation of the original image in such a way 
 
 Training DETR is a two step process
 
-1. First [train DETR for Object Detection](./OBJECTDETECTION.md)
+1. First [train DETR for Object Detection](OBJECTDETECTION.md)
 2. Then add panoptic mask head and freeze base network and further train for a couple of epochs
 
 
-In our [previous article](./OBJECTDETECTION.md) we have shown how to create a custom dataset from scratch and train Object Detection Model on the same. We have trained object detection model in multiple steps for around 150 epochs.
+In our [previous article](OBJECTDETECTION.md) we have shown how to create a custom dataset from scratch and train Object Detection Model on the same. We have trained object detection model in multiple steps for around 150 epochs.
 
 In this step we are adding Panoptic head on top of base DETR model and train it for another 150 epochs. But in this part we will train panoptic head with base model for first 500 epochs then we are goiong to freeze object detection model and train further for 50 epochs.
 
@@ -354,30 +354,30 @@ Stuff     |  29.4   67.5   40.6    15
 
 **Final Output after 150 epochs**
 
-![Loss ](./assets/charts/pa_loss.png)
-![Loss GIOU and BBOX](./assets/charts/pa_loss_bb_giou.png)
-![Error](./assets/charts/pa_error.png)
+![Loss ](assets/charts/pa_loss.png)
+![Loss GIOU and BBOX](assets/charts/pa_loss_bb_giou.png)
+![Error](assets/charts/pa_error.png)
 
 
 ##  3. <a name='ExamplePredictions'></a>Example Predictions
 
-You can find some of example predictions here [./assets/panoptic](./assets/panoptic)
+You can find some of example predictions here [./assets/panoptic](assets/panoptic)
 
-![distribution_transformer_7418.jpg](./assets/panoptic/distribution_transformer_7418.jpg)
+![distribution_transformer_7418.jpg](assets/panoptic/distribution_transformer_7418.jpg)
 
-![fire_buckets_7827.jpg](./assets/panoptic/fire_buckets_7827.jpg)
+![fire_buckets_7827.jpg](assets/panoptic/fire_buckets_7827.jpg)
 
-![grader_8467.jpg](./assets/panoptic/grader_8467.jpg)
+![grader_8467.jpg](assets/panoptic/grader_8467.jpg)
 
-![hoist_2990.jpg](./assets/panoptic/hoist_2990.jpg)
+![hoist_2990.jpg](assets/panoptic/hoist_2990.jpg)
 
-![sanitary_fixtures_1668.jpg](./assets/panoptic/sanitary_fixtures_1668.jpg)
+![sanitary_fixtures_1668.jpg](assets/panoptic/sanitary_fixtures_1668.jpg)
 
-![split_units_108.jpg](./assets/panoptic/split_units_108.jpg)
+![split_units_108.jpg](assets/panoptic/split_units_108.jpg)
 
-![transit_mixer_899.jpg](./assets/panoptic/transit_mixer_899.jpg)
+![transit_mixer_899.jpg](assets/panoptic/transit_mixer_899.jpg)
 
-![vitrified_tiles_6471.jpg](./assets/panoptic/vitrified_tiles_6471.jpg)
+![vitrified_tiles_6471.jpg](assets/panoptic/vitrified_tiles_6471.jpg)
 
 ##  4. <a name='References'></a>References
 

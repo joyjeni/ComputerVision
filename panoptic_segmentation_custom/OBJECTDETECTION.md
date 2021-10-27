@@ -1,5 +1,5 @@
 
-![prediction](./assets/prediction.png)
+![prediction](assets/prediction.png)
 
 <!-- vscode-markdown-toc -->
 1. [COCO Format for Object detection](#COCOFormatforObjectdetection)
@@ -217,7 +217,7 @@ As per thge standard coco format we need one `test` and one `train` file. So our
 
 Before starting to create a consolidated dataset, the classes mentioned above just belongs to `things` category. But for a true panoptic segmentation we also need our dataset to include stuffs classes. In coco dataset following are the things and stuff classes.
 
-![coco categories](./assets/cocostuff-labelhierarchy.png)
+![coco categories](assets/cocostuff-labelhierarchy.png)
 
 From the above image we took all low level categories and mapped them to high level categories.
 
@@ -613,8 +613,8 @@ Finally we have our custom dataset which contains custom things categories with 
 
 ###  2.3. <a name='ExampleMaskImage'></a>Example Mask Image
 
-![Rmc Batching Plant](./assets/rmc_batching_plant_5155.jpg)
-![Rmc Batching Plant Mask](./assets/rmc_batching_plant_5155.png)
+![Rmc Batching Plant](assets/rmc_batching_plant_5155.jpg)
+![Rmc Batching Plant Mask](assets/rmc_batching_plant_5155.png)
 
 
 ##  3. <a name='ImplementRICAP'></a>Implement RICAP
@@ -753,9 +753,9 @@ We implemented RICAP in side a dataloaded as follows
 
 ###  3.1. <a name='ExampleRICAPImages'></a>Example RICAP Images
 
-![Collage](./assets/ricap_1.jpg)
-![Collage](./assets/ricap_2.jpg)
-![Collage](./assets/ricap_3.jpg)
+![Collage](assets/ricap_1.jpg)
+![Collage](assets/ricap_2.jpg)
+![Collage](assets/ricap_3.jpg)
     
 
 ##  4. <a name='FineTuneDETRoncustomdatasetforObjectDetection'></a>Fine Tune DETR on custom dataset for Object Detection
@@ -966,29 +966,29 @@ Following are the outputs after different stages.
 
 **Final Output after 150 epochs**
 
-![Loss](./assets/charts/od_loss.png)
-![Loss and mAP](./assets/charts/od_loss_map.png)
-![Error](./assets/charts/od_error.png)
+![Loss](assets/charts/od_loss.png)
+![Loss and mAP](assets/charts/od_loss_map.png)
+![Error](assets/charts/od_error.png)
 
 ##  5. <a name='ExamplePredictions'></a>Example Predictions
 
-You can find some of example predictions here [./assets/predictions](./assets/predictions)
+You can find some of example predictions here [./assets/predictions](assets/predictions)
 
-![distribution_transformer_7418.jpg](./assets/predictions/distribution_transformer_7418.jpg)
+![distribution_transformer_7418.jpg](assets/predictions/distribution_transformer_7418.jpg)
 
-![fire_buckets_7827.jpg](./assets/predictions/fire_buckets_7827.jpg)
+![fire_buckets_7827.jpg](assets/predictions/fire_buckets_7827.jpg)
 
-![grader_8467.jpg](./assets/predictions/grader_8467.jpg)
+![grader_8467.jpg](assets/predictions/grader_8467.jpg)
 
-![hoist_2990.jpg](./assets/predictions/hoist_2990.jpg)
+![hoist_2990.jpg](assets/predictions/hoist_2990.jpg)
 
-![sanitary_fixtures_1668.jpg](./assets/predictions/sanitary_fixtures_1668.jpg)
+![sanitary_fixtures_1668.jpg](assets/predictions/sanitary_fixtures_1668.jpg)
 
-![split_units_108.jpg](./assets/predictions/split_units_108.jpg)
+![split_units_108.jpg](assets/predictions/split_units_108.jpg)
 
-![transit_mixer_899.jpg](./assets/predictions/transit_mixer_899.jpg)
+![transit_mixer_899.jpg](assets/predictions/transit_mixer_899.jpg)
 
-![vitrified_tiles_6471.jpg](./assets/predictions/vitrified_tiles_6471.jpg)
+![vitrified_tiles_6471.jpg](assets/predictions/vitrified_tiles_6471.jpg)
 
 ##  6. <a name='References'></a>References
 
