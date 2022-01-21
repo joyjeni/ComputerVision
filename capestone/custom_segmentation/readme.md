@@ -1,4 +1,4 @@
-#### Refer solution developed by Ammar Adil
+#### Refer solution here
 
 https://github.com/adilsammar/detr-fine
 
